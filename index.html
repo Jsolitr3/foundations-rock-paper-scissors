@@ -7,6 +7,44 @@
     <title>Rock, Paper, Scissors!</title>
 </head>
 <body>
-    
+    <input id="userInput">
+    <button onclick="start()">Play!</button>
+    <script>
+        let result;
+
+        function start(){
+            startGame(document.getElementById("userInput").value, computerPlay())
+            alert(result);
+            return;
+        }
+        function startGame(playerSelection, computerSelection){
+            playerSelection = playerSelection.toLowerCase();
+            computerSelection = computerSelection.toLowerCase();
+            if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
+                if (playerSelection === computerSelection) {
+                    result = "It's a Draw!";
+                } else if (playerSelection === "rock") {
+                    if (computerSelection === "paper") {
+                        result = "You Lose! Paper beats Rock.";
+                    }else result = "You Win! Rock beats Scissors.";
+                } else if (playerSelection === "paper") {
+                    if (computerSelection === "scissors") {
+                        result = "You Lose! Scissors beats Paper.";
+                    }else result = "You Win! Paper beats Rock.";
+                } else if (playerSelection === "Scissors") {
+                    if (computerSelection === "Rock") {
+                        result = "You Lose! Rock beats Scissors.";
+                    }else result = "You Win! Scissors beats Paper.";
+                } 
+            }else result = "Please choose either Rock, Paper, or Scissors.";
+            /*alert(result)*/
+            return result;
+        }
+
+        function computerPlay(){ /*randomly returns rock, paper, or scissors*/
+            return Math.floor(Math.random()*3)+1 === 1 ? "rock" : Math.floor(Math.random()*3)+1 === 2 ? "paper" : "scissors";
+        }
+
+    </script>
 </body>
 </html>
