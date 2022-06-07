@@ -30,10 +30,11 @@
                     comScore++;
                 }
                 if (userScore === (Math.floor(bestOutOf / 2)+1) || (comScore === (Math.floor(bestOutOf / 2)+1))) {
+                    i = bestOutOf;
                     if (userScore > comScore){
                         alert("You won " + userScore + "/" + bestOutOf);
                     } else alert("You lost " + userScore + "/" + bestOutOf);
-                } else if (i === bestOutOf) {
+                } else if ((i + 1) === bestOutOf) {
                     if (userScore > comScore){
                         alert("You won " + userScore + "/" + bestOutOf);
                     } else if (userScore < comScore ) {
