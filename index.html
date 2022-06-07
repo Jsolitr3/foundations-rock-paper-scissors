@@ -7,14 +7,40 @@
     <title>Rock, Paper, Scissors!</title>
 </head>
 <body>
-    <input id="userInput">
-    <button onclick="start()">Play!</button>
+    <button onclick="game()">Play!</button>
     <script>
         let result;
 
-        function start(){
-            startGame(document.getElementById("userInput").value, computerPlay())
-            alert(result);
+        function game(){
+            let userScore = 0;
+            let comScore = 0;
+            let bestOutOf = parseInt(prompt("How many games would you like to play? Best out of:"));
+            if (!bestOutOf) {
+                alert("Please enter an Integer");
+                return;
+            }
+            for (let i = 0; i < bestOutOf; i++){
+                let userInput = prompt("Please enter Rock, Paper, or Scissors.");
+                startGame(userInput, computerPlay());
+                if (result === "Please choose either Rock, Paper, or Scissors.") {
+                    i--;
+                } else if (result.charAt(4) === "W"){
+                    userScore++;
+                } else if (result.charAt(4) === "L") {
+                    comScore++;
+                }
+                if (userScore === (Math.floor(bestOutOf / 2)+1) || (comScore === (Math.floor(bestOutOf / 2)+1))) {
+                    if (userScore > comScore){
+                        alert("You won " + userScore + "/" + bestOutOf);
+                    } else alert("You lost " + userScore + "/" + bestOutOf);
+                } else if (i === bestOutOf) {
+                    if (userScore > comScore){
+                        alert("You won " + userScore + "/" + bestOutOf);
+                    } else if (userScore < comScore ) {
+                        alert("You lost " + userScore + "/" + bestOutOf);
+                    } else alert("Draw! You tied the computer player.");
+                }
+            }
             return;
         }
         function startGame(playerSelection, computerSelection){
@@ -37,7 +63,7 @@
                     }else result = "You Win! Scissors beats Paper.";
                 } 
             }else result = "Please choose either Rock, Paper, or Scissors.";
-            /*alert(result)*/
+            alert(result);
             return result;
         }
 
