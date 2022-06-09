@@ -9,15 +9,49 @@
     <title>Rock, Paper, Scissors!</title>
 </head>
 <body>
-    <header> 
-        <h1 class="title">Rock, Paper, Scissors!</h1>
-    </header>
-
-    <ol>
-        <li><button class="button"><img src="">Rock</button></li>
-        <li><button class="button"><img src="">Paper</button></li>
-        <li><button class="button"><img src="">Scissors</button></li>
-    </ol>
-    
+        <header> 
+            <h1 class="title">Rock, Paper, Scissors!</h1>
+            <button class="play">Play!</button>
+        </header>
+        <div class="mainContainer">
+            <div class="scoreContainer">
+                <div class="scoreCardContainer">
+                    <p class="scoreLabel">Wins</p>
+                    <p class="scoreCard win">0</p>
+                </div>
+                <div class="scoreCardContainer">
+                    <p class="scoreLabel">Draws</p>
+                    <p class="scoreCard draw">0</p>
+                </div>
+                <div class="scoreCardContainer">
+                    <p class="scoreLabel">Loses</p>
+                    <p class="scoreCard loss">0</p>
+                </div>
+            </div>
+            <div class="buttonContainer">
+                <div><button class="button" style="background-image: url('images/rock.png');">Rock</button></div>
+                <div><button class="button" style="background-image: url('images/paper.png');">Paper</button></div>
+                <div><button class="button" style="background-image: url('images/scissors.png');">Scissors</button></div>
+            </div>
+            <div class="historyContainer">
+                <div class="gameContainer">
+                    <div class="game table">
+                        <p class="printGame">Game:</p>
+                    </div>
+                    <div class="userChoice table">
+                        <p class="printGame">You Chose:</p>
+                    </div>
+                    <div class="vs table">
+                        <p class="printGame"> </p>
+                    </div>
+                    <div class="cpuChoice table">
+                        <p class="printGame">CPU Chose:</p>
+                    </div>
+                    <div class="result table">
+                        <p class="printGame">Result:</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
