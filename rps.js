@@ -1,5 +1,12 @@
 
 document.getElementsByClassName('mainContainer')[0].style.display = 'none';
+document.getElementsByClassName('historyContainer')[0].style.display = 'none';
+let gameCount;
+let winCount;
+let tieCount;
+let lossCount;
+const bestof = 5;
+
 
 const btns = document.querySelectorAll('.button');
 btns.forEach((btn) => {
@@ -15,19 +22,43 @@ function reset(){
     window.location.reload();
 };
 
-let gameCount;
-let winCount;
-let tieCount;
-let lossCount;
 
 function startGame(){
     document.getElementsByClassName('play')[0].style.display = 'none';
     document.getElementsByClassName('mainContainer')[0].style.display = 'block';
+    document.getElementsByClassName('gameResult')[0].style.display = 'none';
+    document.getElementsByClassName('historyContainer')[0].style.display = 'none';
+    if (gameCount > 0) {
+        clearHistory();
+        resetScore();
+    }
     gameCount = 0;
     winCount = 0;
     drawCount = 0;
     lossCount = 0;
 };
+
+function endGame(){
+    document.getElementsByClassName('play')[0].style.display = 'block';
+    document.getElementsByClassName('play')[0].textContent = 'Play Again!';
+    document.getElementsByClassName('mainContainer')[0].style.display = 'none';
+    document.getElementsByClassName('gameResult')[0].style.display = 'block';
+    let gameText;
+    if (winCount === lossCount) {
+        gameText = "It's a Draw!"
+    } else if (winCount < lossCount) {
+        gameText = "You lose! Better luck next time!"
+    } else if (winCount > lossCount) {
+        gameText = "Congratulations! You win!"
+    }
+    document.getElementsByClassName('gameResult')[0].textContent = gameText;
+}
+function resetScore(){
+    const scores = document.querySelectorAll('.scoreCard');
+    scores.forEach((score) => {
+        score.textContent = "0";
+    });
+}
 
 function writeScore(outcome){
     const score = document.getElementsByClassName(outcome)[0];
@@ -79,86 +110,62 @@ userImg.appendChild(userImgContent);
 cpuImg.appendChild(cpuImgContent);
 
 }
-        //let result;
 
-//        function game(){
-//            let userScore = 0;
-//            let comScore = 0;
-//            let bestOutOf = parseInt(prompt("How many games would you like to play? Best out of:"));
-//            if (!bestOutOf) {
-//                //alert("Please enter an Integer");
-//                return;
-//            }
-/*            for (let i = 0; i < bestOutOf; i++){
-                let userInput = prompt("Please enter Rock, Paper, or Scissors.");
-                startGame(userInput, computerPlay());
-                if (result === "Please choose either Rock, Paper, or Scissors.") {
-                    i--;
-                } else if (result.charAt(4) === "W"){
-                    userScore++;
-                } else if (result.charAt(4) === "L") {
-                    comScore++;
-                }
-                if (userScore === (Math.floor(bestOutOf / 2)+1) || (comScore === (Math.floor(bestOutOf / 2)+1))) {
-                    i = bestOutOf;
-                    if (userScore > comScore){
-                        //alert("You won " + userScore + "/" + bestOutOf);
-                    } else //alert("You lost " + userScore + "/" + bestOutOf);
-                } else if ((i + 1) === bestOutOf) {
-                    if (userScore > comScore){
-                        //alert("You won " + userScore + "/" + bestOutOf);
-                    } else if (userScore < comScore ) {
-                        //alert("You lost " + userScore + "/" + bestOutOf);
-                    } else //alert("Draw! You tied the computer player.");
-                }
+function clearHistory(){
+    let prevGames; // = document.getElementsByClassName('table');
+    for (let game = 0 ; game < document.getElementsByClassName('gameContainer')[0].childElementCount; game++){
+        prevGames = document.getElementsByClassName('table')[game];
+        for (let i = gameCount ; i >= 1 ; i--) {
+            prevGames.removeChild(prevGames.lastChild);
+        }
+    }
+
+}
+
+function playRound(playerSelection, computerSelection){
+    if (document.getElementsByClassName('historyContainer')[0].style.display === 'none'){
+        document.getElementsByClassName('historyContainer')[0].style.display = 'block';
+    }
+    let result = ""
+    playerSelection = playerSelection.toLowerCase();
+    computerSelection = computerSelection.toLowerCase();
+        if (playerSelection === computerSelection) {
+            drawCount ++;
+            result = 'draw';
+        } else if (playerSelection === "rock") {
+            if (computerSelection === "paper") {
+                lossCount ++;
+                result = 'loss';
+            }else {
+                winCount ++;
+                result = 'win';
             }
-            return;
-        }
-*/
-        function playRound(playerSelection, computerSelection){
-            let result = ""
-            playerSelection = playerSelection.toLowerCase();
-            computerSelection = computerSelection.toLowerCase();
-            //if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
-                if (playerSelection === computerSelection) {
-                    drawCount ++;
-                    result = 'draw';
-                    //result = "It's a Draw!";
-                } else if (playerSelection === "rock") {
-                    if (computerSelection === "paper") {
-                        lossCount ++;
-                        result = 'loss';
-                        //result = "You Lose! Paper beats Rock.";
-                    }else {
-                        winCount ++;
-                        result = 'win';
-                    } //result = "You Win! Rock beats Scissors.";
-                } else if (playerSelection === "paper") {
-                    if (computerSelection === "scissors") {
-                        lossCount ++;
-                        result = 'loss';
-                        //result = "You Lose! Scissors beats Paper.";
-                    }else {
-                        winCount ++;
-                        result = 'win';
-                    } //result = "You Win! Paper beats Rock.";
-                } else if (playerSelection === "scissors") {
-                    if (computerSelection === "rock") {
-                        lossCount ++;
-                        result = 'loss';
-                        //result = "You Lose! Rock beats Scissors.";
-                    }else {winCount ++;
-                        result = 'win';
-                    } //result = "You Win! Scissors beats Paper.";
-                } 
-            //}else result = "Please choose either Rock, Paper, or Scissors.";
-            gameCount ++;
-            writeScore(result);
-            writeHistory(playerSelection, computerSelection, result);
-            //alert(result);
-            //return result;
-        }
+        } else if (playerSelection === "paper") {
+            if (computerSelection === "scissors") {
+                lossCount ++;
+                result = 'loss';
+            }else {
+                winCount ++;
+                result = 'win';
+            }
+        } else if (playerSelection === "scissors") {
+            if (computerSelection === "rock") {
+                lossCount ++;
+                result = 'loss';
+            }else {winCount ++;
+                result = 'win';
+            }
+        } 
+    gameCount ++;
+    writeScore(result);
+    writeHistory(playerSelection, computerSelection, result);
+    if (gameCount === 5) {
+        endGame();
+    }
+    //alert(result);
+    //return result;
+}
 
-        function computerPlay(){ /*randomly returns rock, paper, or scissors*/
-            return Math.floor(Math.random()*3)+1 === 1 ? "rock" : Math.floor(Math.random()*3)+1 === 2 ? "paper" : "scissors";
-        }
+function computerPlay(){ /*randomly returns rock, paper, or scissors*/
+    return Math.floor(Math.random()*3)+1 === 1 ? "rock" : Math.floor(Math.random()*3)+1 === 2 ? "paper" : "scissors";
+}
